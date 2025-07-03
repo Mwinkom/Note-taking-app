@@ -78,14 +78,16 @@
   
   .tags {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: $spacing-sm;
     margin-bottom: $spacing-md;
     font-size: $font-size-sm;
     color: $gray-600;
+    line-height: 1.4;
     
     .tag-icon {
       color: $primary;
+      margin-top: 2px;
     }
   }
   
@@ -94,12 +96,15 @@
     
     button {
       @include btn-base;
-      @include flex-center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       gap: $spacing-sm;
       background: transparent;
       color: $gray-600;
       padding: $spacing-sm;
       font-size: $font-size-sm;
+      line-height: 1;
       
       &:hover {
         color: $primary;
@@ -109,12 +114,15 @@
     
     a {
       @include btn-base;
-      @include flex-center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       gap: $spacing-sm;
       background: $primary;
       color: $white;
-      padding: $spacing-sm;
+      padding: $spacing-sm $spacing-md;
       font-size: $font-size-sm;
+      line-height: 1;
       
       &:hover {
         background: $primary-light;

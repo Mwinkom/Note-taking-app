@@ -12,7 +12,13 @@
 
   .nav-container {
     @include container;
+    @include flex-between;
     padding: $spacing-md;
+  }
+
+  .nav-logo {
+    width: 32px;
+    height: 32px;
   }
 
   .nav-list {
