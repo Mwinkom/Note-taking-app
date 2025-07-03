@@ -1,0 +1,52 @@
+@use 'variables' as *;
+
+// Flexbox
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+// Button
+@mixin btn-base {
+  display: inline-flex;
+  align-items: center;
+  padding: $spacing-sm $spacing-lg;
+  border: none;
+  border-radius: $border-radius-full;
+  font-weight: $font-weight-medium;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all $transition;
+}
+
+@mixin btn-primary {
+  @include btn-base;
+  background: $primary;
+  color: $white;
+  
+  &:hover {
+    background: $primary-light;
+  }
+}
+
+// Card
+@mixin card {
+  background: $white;
+  border-radius: $border-radius;
+  box-shadow: $shadow-sm;
+  border: 1px solid $gray-200;
+}
+
+// Container
+@mixin container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 $spacing-md;
+}

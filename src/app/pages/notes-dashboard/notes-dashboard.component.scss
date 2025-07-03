@@ -1,0 +1,124 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.container {
+  @include container;
+  background: $gray-50;
+  min-height: 100vh;
+}
+
+.search-container {
+  position: relative;
+  max-width: 500px;
+  margin: 0 auto $spacing-xl auto;
+  
+  .search-icon {
+    position: absolute;
+    left: $spacing-lg;
+    top: 50%;
+    transform: translateY(-50%);
+    color: $primary;
+    z-index: 1;
+  }
+}
+
+.search-bar {
+  width: 100%;
+  padding: $spacing-lg $spacing-lg $spacing-lg 60px;
+  border: 2px solid $gray-200;
+  border-radius: $border-radius-full;
+  font-size: $font-size-base;
+  background: $white;
+  transition: all $transition;
+  box-shadow: $shadow-sm;
+  
+  &:focus {
+    outline: none;
+    border-color: $primary;
+    box-shadow: $shadow-md;
+    transform: translateY(-1px);
+  }
+  
+  &::placeholder {
+    color: $gray-400;
+    font-weight: $font-weight-medium;
+  }
+}
+
+.notes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: $spacing-lg;
+}
+
+.note-card {
+  @include card;
+  padding: $spacing-lg;
+  transition: all $transition;
+  background: $white;
+  
+  &:hover {
+    background: rgba($primary, 0.05);
+    border-color: $primary;
+  }
+  
+  h3 {
+    color: $gray-900;
+    margin-bottom: $spacing-sm;
+    font-size: $font-size-base;
+    font-weight: $font-weight-medium;
+  }
+  
+  p {
+    color: $gray-600;
+    margin-bottom: $spacing-md;
+    line-height: 1.5;
+    font-size: $font-size-sm;
+  }
+  
+  .tags {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    margin-bottom: $spacing-md;
+    font-size: $font-size-sm;
+    color: $gray-600;
+    
+    .tag-icon {
+      color: $primary;
+    }
+  }
+  
+  .actions {
+    @include flex-between;
+    
+    button {
+      @include btn-base;
+      @include flex-center;
+      gap: $spacing-sm;
+      background: transparent;
+      color: $gray-600;
+      padding: $spacing-sm;
+      font-size: $font-size-sm;
+      
+      &:hover {
+        color: $primary;
+        background: rgba($primary, 0.05);
+      }
+    }
+    
+    a {
+      @include btn-base;
+      @include flex-center;
+      gap: $spacing-sm;
+      background: $primary;
+      color: $white;
+      padding: $spacing-sm;
+      font-size: $font-size-sm;
+      
+      &:hover {
+        background: $primary-light;
+      }
+    }
+  }
+}

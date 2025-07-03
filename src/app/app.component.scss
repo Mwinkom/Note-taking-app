@@ -1,0 +1,43 @@
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+
+// Navigation
+.app-nav {
+  background: $white;
+  border-bottom: 1px solid $gray-200;
+  box-shadow: $shadow-sm;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+
+  .nav-container {
+    @include container;
+    padding: $spacing-md;
+  }
+
+  .nav-list {
+    @include flex-center;
+    gap: $spacing-sm;
+  }
+
+  .nav-link {
+    @include btn-base;
+    color: $gray-600;
+    background: transparent;
+    
+    &:hover {
+      color: $primary;
+      background: rgba($primary, 0.05);
+    }
+    
+    &.active {
+      @include btn-primary;
+    }
+  }
+}
+
+// Main Content
+.main-content {
+  min-height: calc(100vh - 80px);
+  padding: $spacing-xl;
+}
