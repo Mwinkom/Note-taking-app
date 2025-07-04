@@ -3,7 +3,7 @@
   <div class="notes-grid">
     <div
       class="note-card"
-      *ngFor="let note of filteredNotes"
+      *ngFor="let note of filteredNotes; trackBy: trackByNoteId"
     >
       <h3>{{ note.title }}</h3>
       <p>{{ note.content }}</p>

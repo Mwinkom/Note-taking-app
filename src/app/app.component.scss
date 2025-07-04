@@ -12,19 +12,118 @@
 
   .nav-container {
     @include container;
+    position: relative;
+  }
+
+  // Mobile Header (visible on mobile only)
+  .mobile-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: $spacing-md;
-    gap: $spacing-lg;
+    
+    @media (min-width: 769px) {
+      display: none;
+    }
+    
+    .nav-logo {
+      width: 28px;
+      height: 28px;
+    }
+    
+    .mobile-menu-btn {
+      @include btn-base;
+      background: transparent;
+      color: $gray-600;
+      padding: $spacing-xs;
+      
+      &:hover {
+        color: $primary;
+        background: rgba($primary, 0.05);
+      }
+    }
   }
 
-  .nav-logo {
-    width: 32px;
-    height: 32px;
-    flex-shrink: 0;
+  // Desktop Navigation (hidden on mobile)
+  .desktop-nav {
+    display: none;
+    
+    @media (min-width: 769px) {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: $spacing-md;
+      gap: $spacing-lg;
+    }
+    
+    .nav-logo {
+      width: 32px;
+      height: 32px;
+      flex-shrink: 0;
+    }
   }
 
+  // Mobile Menu (slide down)
+  .mobile-menu {
+    display: none;
+    background: $white;
+    border-top: 1px solid $gray-200;
+    padding: $spacing-lg $spacing-md;
+    
+    @media (max-width: 768px) {
+      &.open {
+        display: block;
+        animation: slideDown 0.3s ease-out;
+      }
+    }
+    
+    @media (min-width: 769px) {
+      display: none !important;
+    }
+  }
+  
+  .mobile-filters {
+    margin-bottom: $spacing-lg;
+    
+    .nav-search {
+      margin-bottom: $spacing-md;
+    }
+  }
+  
+  .mobile-nav-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    
+    .mobile-nav-item {
+      margin-bottom: $spacing-xs;
+      
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+    
+    .mobile-nav-link {
+      display: block;
+      padding: $spacing-md;
+      color: $gray-600;
+      font-weight: $font-weight-medium;
+      border-radius: $border-radius;
+      transition: all $transition;
+      
+      &:hover {
+        color: $primary;
+        background: rgba($primary, 0.05);
+      }
+      
+      &.active {
+        background: $primary;
+        color: $white;
+      }
+    }
+  }
+
+  // Shared Filter Styles
   .nav-filters {
     flex: 1;
     max-width: 400px;
@@ -128,12 +227,13 @@
     }
   }
 
+  // Desktop Navigation Links
   .nav-list {
     @include flex-center;
     gap: $spacing-sm;
     flex-shrink: 0;
   }
-
+  
   .nav-link {
     @include btn-base;
     color: $gray-600;
@@ -150,8 +250,28 @@
   }
 }
 
+// Animation for mobile menu
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 // Main Content
 .main-content {
   min-height: calc(100vh - 80px);
   padding: $spacing-xl;
+  
+  @media (max-width: 768px) {
+    padding: $spacing-md;
+  }
+  
+  @media (max-width: 480px) {
+    padding: $spacing-sm;
+  }
 }

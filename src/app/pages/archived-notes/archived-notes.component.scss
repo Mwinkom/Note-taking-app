@@ -3,15 +3,23 @@
 
 .container {
   @include container;
-  padding: $spacing-xl;
   background: $gray-50;
   min-height: 100vh;
 }
 
 .notes-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: $spacing-lg;
+  
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: $spacing-md;
+  }
+  
+  @media (max-width: 480px) {
+    gap: $spacing-sm;
+  }
 }
 
 .note-card {
@@ -80,10 +88,10 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: $spacing-sm;
+      gap: $spacing-sm ;
       background: $primary;
       color: $white;
-      padding: $spacing-sm;
+      padding: $spacing-sm $spacing-md;
       font-size: $font-size-sm;
       line-height: 1;
       

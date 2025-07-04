@@ -29,16 +29,22 @@ export class NotesDashboardComponent implements OnInit {
     this.noteService.archiveNote(id);
   } 
 
+  trackByNoteId(index: number, note: Note): string {
+    return note.id;
+  }
+
   notes: Note[] = [];
   
   selectedTag = '';
   
   ngOnInit() {
-    // Clear existing data
-    localStorage.removeItem('notes');
     this.noteService.loadNotesFromStorage();
-    this.addMockNotes();
+    
+    // Only add mock notes if no notes exist
     this.notes$.subscribe(notes => {
+      if (notes.length === 0) {
+        this.addMockNotes();
+      }
       this.notes = notes.filter(note => !note.isArchived);
     });
     
@@ -86,14 +92,12 @@ export class NotesDashboardComponent implements OnInit {
       filtered = filtered.filter(note => note.tags.includes(this.selectedTag));
     }
     
-    // Then filter by search term
+    // Then filter by search term using service method
     if (this.searchTerm.trim()) {
-      const term = this.searchTerm.toLowerCase();
-      filtered = filtered.filter(note => {
-        return note.title.toLowerCase().includes(term) ||
-               note.content.toLowerCase().includes(term) ||
-               note.tags.some(tag => tag.toLowerCase().includes(term));
-      });
+      const searchResults = this.noteService.searchNotes(this.searchTerm);
+      filtered = filtered.filter(note => 
+        searchResults.some(searchNote => searchNote.id === note.id)
+      );
     }
     
     return filtered;

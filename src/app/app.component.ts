@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
-import { LucideAngularModule, Search, Filter } from 'lucide-angular';
+import { LucideAngularModule, Search, Filter, Menu, X } from 'lucide-angular';
 import { FormsModule } from '@angular/forms';
 import { NoteService } from './services/note.service';
 import { CommonModule } from '@angular/common';
@@ -19,6 +19,10 @@ export class AppComponent {
   
   SearchIcon = Search;
   FilterIcon = Filter;
+  MenuIcon = Menu;
+  CloseIcon = X;
+  
+  isMobileMenuOpen = false;
   
   constructor(private noteService: NoteService) {}
   
@@ -44,5 +48,13 @@ export class AppComponent {
     this.selectedTag = '';
     this.noteService.setSelectedTag('');
     this.showTagDropdown = false;
+  }
+  
+  toggleMobileMenu(): void {
+    this.isMobileMenuOpen = !this.isMobileMenuOpen;
+  }
+  
+  closeMobileMenu(): void {
+    this.isMobileMenuOpen = false;
   }
 }

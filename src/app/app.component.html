@@ -1,59 +1,126 @@
 <nav class="app-nav" role="navigation" aria-label="Main navigation">
   <div class="nav-container">
-    <img src="note-icon.png" alt="Logo" class="nav-logo">
-    
-    <div class="nav-filters">
-      <div class="nav-search">
-        <lucide-icon [img]="SearchIcon" size="16" class="nav-search-icon"></lucide-icon>
-        <input
-          type="text"
-          [(ngModel)]="searchTerm"
-          (input)="onSearchChange()"
-          placeholder="Search notes..."
-          class="nav-search-bar"
-        />
-      </div>
-      
-      <div class="tag-filter" [class.active]="selectedTag">
-        <button class="tag-filter-btn" (click)="toggleTagDropdown()">
-          <lucide-icon [img]="FilterIcon" size="14"></lucide-icon>
-          <span *ngIf="selectedTag; else defaultText">{{ selectedTag }}</span>
-          <ng-template #defaultText>Tags</ng-template>
-        </button>
-        
-        <div class="tag-dropdown" *ngIf="showTagDropdown">
-          <button class="tag-option" (click)="clearTagFilter()" [class.selected]="!selectedTag">
-            All Tags
-          </button>
-          <button 
-            class="tag-option" 
-            *ngFor="let tag of allTags" 
-            (click)="selectTag(tag)"
-            [class.selected]="selectedTag === tag"
-          >
-            {{ tag }}
-          </button>
-        </div>
-      </div>
+    <!-- Mobile Header -->
+    <div class="mobile-header">
+      <img src="note-icon.png" alt="Logo" class="nav-logo">
+      <button class="mobile-menu-btn" (click)="toggleMobileMenu()" [attr.aria-expanded]="isMobileMenuOpen">
+        <lucide-icon [img]="isMobileMenuOpen ? CloseIcon : MenuIcon" size="20"></lucide-icon>
+      </button>
     </div>
     
-    <ul class="nav-list">
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/notes" routerLinkActive="active" ariaCurrentWhenActive="page">
-          Notes
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/archived" routerLinkActive="active" ariaCurrentWhenActive="page">
-          Archived
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/create" routerLinkActive="active" ariaCurrentWhenActive="page">
-          Create Note
-        </a>
-      </li>
-    </ul>
+    <!-- Desktop Navigation -->
+    <div class="desktop-nav">
+      <img src="note-icon.png" alt="Logo" class="nav-logo">
+      
+      <div class="nav-filters">
+        <div class="nav-search">
+          <lucide-icon [img]="SearchIcon" size="16" class="nav-search-icon"></lucide-icon>
+          <input
+            type="text"
+            [(ngModel)]="searchTerm"
+            (input)="onSearchChange()"
+            placeholder="Search notes..."
+            class="nav-search-bar"
+          />
+        </div>
+        
+        <div class="tag-filter" [class.active]="selectedTag">
+          <button class="tag-filter-btn" (click)="toggleTagDropdown()">
+            <lucide-icon [img]="FilterIcon" size="14"></lucide-icon>
+            <span *ngIf="selectedTag; else defaultText">{{ selectedTag }}</span>
+            <ng-template #defaultText>Tags</ng-template>
+          </button>
+          
+          <div class="tag-dropdown" *ngIf="showTagDropdown">
+            <button class="tag-option" (click)="clearTagFilter()" [class.selected]="!selectedTag">
+              All Tags
+            </button>
+            <button 
+              class="tag-option" 
+              *ngFor="let tag of allTags" 
+              (click)="selectTag(tag)"
+              [class.selected]="selectedTag === tag"
+            >
+              {{ tag }}
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <ul class="nav-list">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/notes" routerLinkActive="active" ariaCurrentWhenActive="page">
+            Notes
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/archived" routerLinkActive="active" ariaCurrentWhenActive="page">
+            Archived
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/create" routerLinkActive="active" ariaCurrentWhenActive="page">
+            Create Note
+          </a>
+        </li>
+      </ul>
+    </div>
+    
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" [class.open]="isMobileMenuOpen">
+      <div class="mobile-filters">
+        <div class="nav-search">
+          <lucide-icon [img]="SearchIcon" size="16" class="nav-search-icon"></lucide-icon>
+          <input
+            type="text"
+            [(ngModel)]="searchTerm"
+            (input)="onSearchChange()"
+            placeholder="Search notes..."
+            class="nav-search-bar"
+          />
+        </div>
+        
+        <div class="tag-filter" [class.active]="selectedTag">
+          <button class="tag-filter-btn" (click)="toggleTagDropdown()">
+            <lucide-icon [img]="FilterIcon" size="14"></lucide-icon>
+            <span *ngIf="selectedTag; else defaultTextMobile">{{ selectedTag }}</span>
+            <ng-template #defaultTextMobile>Filter by Tags</ng-template>
+          </button>
+          
+          <div class="tag-dropdown" *ngIf="showTagDropdown">
+            <button class="tag-option" (click)="clearTagFilter()" [class.selected]="!selectedTag">
+              All Tags
+            </button>
+            <button 
+              class="tag-option" 
+              *ngFor="let tag of allTags" 
+              (click)="selectTag(tag)"
+              [class.selected]="selectedTag === tag"
+            >
+              {{ tag }}
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <ul class="mobile-nav-list">
+        <li class="mobile-nav-item">
+          <a class="mobile-nav-link" routerLink="/notes" routerLinkActive="active" (click)="closeMobileMenu()">
+            Notes
+          </a>
+        </li>
+        <li class="mobile-nav-item">
+          <a class="mobile-nav-link" routerLink="/archived" routerLinkActive="active" (click)="closeMobileMenu()">
+            Archived
+          </a>
+        </li>
+        <li class="mobile-nav-item">
+          <a class="mobile-nav-link" routerLink="/create" routerLinkActive="active" (click)="closeMobileMenu()">
+            Create Note
+          </a>
+        </li>
+      </ul>
+    </div>
   </div>
 </nav>
 
