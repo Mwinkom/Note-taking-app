@@ -1,0 +1,103 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.container {
+  @include container;
+  background: $gray-50;
+  min-height: 100vh;
+}
+
+.notes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: $spacing-lg;
+  
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: $spacing-md;
+  }
+  
+  @media (max-width: 480px) {
+    gap: $spacing-sm;
+  }
+}
+
+.note-card {
+  @include card;
+  padding: $spacing-lg;
+  transition: all $transition;
+  background: $white;
+  
+  &:hover {
+    background: rgba($primary, 0.05);
+    border-color: $primary;
+  }
+  
+  h3 {
+    color: $gray-900;
+    margin-bottom: $spacing-sm;
+    font-size: $font-size-base;
+    font-weight: $font-weight-medium;
+  }
+  
+  p {
+    color: $gray-600;
+    margin-bottom: $spacing-md;
+    line-height: 1.5;
+    font-size: $font-size-sm;
+  }
+  
+  .tags {
+    display: flex;
+    align-items: flex-start;
+    gap: $spacing-sm;
+    margin-bottom: $spacing-md;
+    font-size: $font-size-sm;
+    color: $gray-600;
+    line-height: 1.4;
+    
+    lucide-icon {
+      color: $primary;
+      margin-top: 2px;
+    }
+  }
+  
+  .actions {
+    @include flex-between;
+    
+    button {
+      @include btn-base;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: $spacing-sm;
+      background: transparent;
+      color: $gray-600;
+      padding: $spacing-sm;
+      font-size: $font-size-sm;
+      line-height: 1;
+      
+      &:hover {
+        color: $primary;
+        background: rgba($primary, 0.05);
+      }
+    }
+    
+    a {
+      @include btn-base;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: $spacing-sm ;
+      background: $primary;
+      color: $white;
+      padding: $spacing-sm $spacing-md;
+      font-size: $font-size-sm;
+      line-height: 1;
+      
+      &:hover {
+        background: $primary-light;
+      }
+    }
+  }
+}

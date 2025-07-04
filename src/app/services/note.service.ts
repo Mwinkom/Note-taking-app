@@ -13,6 +13,25 @@ export class NoteService {
     private notes: Note[] = [];
     private notesSubject = new BehaviorSubject <Note[]>([]);
     notes$ = this.notesSubject.asObservable();
+    
+    private searchTermSubject = new BehaviorSubject<string>('');
+    searchTerm$ = this.searchTermSubject.asObservable();
+    
+    private selectedTagSubject = new BehaviorSubject<string>('');
+    selectedTag$ = this.selectedTagSubject.asObservable();
+    
+    setSearchTerm(term: string): void {
+      this.searchTermSubject.next(term);
+    }
+    
+    setSelectedTag(tag: string): void {
+      this.selectedTagSubject.next(tag);
+    }
+    
+    getAllTags(): string[] {
+      const allTags = this.notes.flatMap(note => note.tags);
+      return [...new Set(allTags)].sort();
+    }
 
     constructor() { }
 

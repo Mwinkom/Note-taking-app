@@ -1,18 +1,9 @@
 <div class="container">
-  <div class="search-container">
-    <lucide-icon [img]="SearchIcon" size="20" class="search-icon"></lucide-icon>
-    <input
-      type="text"
-      [(ngModel)]="searchTerm"
-      placeholder="Search your notes..."
-      class="search-bar"
-    />
-  </div>
 
   <div class="notes-grid">
     <div
       class="note-card"
-      *ngFor="let note of filteredNotes"
+      *ngFor="let note of filteredNotes; trackBy: trackByNoteId"
     >
       <h3>{{ note.title }}</h3>
       <p>{{ note.content }}</p>
