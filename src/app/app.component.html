@@ -1,6 +1,18 @@
 <nav class="app-nav" role="navigation" aria-label="Main navigation">
   <div class="nav-container">
     <img src="note-icon.png" alt="Logo" class="nav-logo">
+    
+    <div class="nav-search">
+      <lucide-icon [img]="SearchIcon" size="16" class="nav-search-icon"></lucide-icon>
+      <input
+        type="text"
+        [(ngModel)]="searchTerm"
+        (input)="onSearchChange()"
+        placeholder="Search notes..."
+        class="nav-search-bar"
+      />
+    </div>
+    
     <ul class="nav-list">
       <li class="nav-item">
         <a class="nav-link" routerLink="/notes" routerLinkActive="active" ariaCurrentWhenActive="page">

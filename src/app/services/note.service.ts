@@ -13,6 +13,13 @@ export class NoteService {
     private notes: Note[] = [];
     private notesSubject = new BehaviorSubject <Note[]>([]);
     notes$ = this.notesSubject.asObservable();
+    
+    private searchTermSubject = new BehaviorSubject<string>('');
+    searchTerm$ = this.searchTermSubject.asObservable();
+    
+    setSearchTerm(term: string): void {
+      this.searchTermSubject.next(term);
+    }
 
     constructor() { }
 

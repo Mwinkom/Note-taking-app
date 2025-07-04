@@ -12,18 +12,58 @@
 
   .nav-container {
     @include container;
-    @include flex-between;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     padding: $spacing-md;
+    gap: $spacing-lg;
   }
 
   .nav-logo {
     width: 32px;
     height: 32px;
+    flex-shrink: 0;
+  }
+
+  .nav-search {
+    flex: 1;
+    max-width: 300px;
+    position: relative;
+    
+    .nav-search-icon {
+      position: absolute;
+      left: $spacing-md;
+      top: 50%;
+      transform: translateY(-50%);
+      color: $primary;
+      z-index: 1;
+    }
+    
+    .nav-search-bar {
+      width: 100%;
+      padding: $spacing-sm $spacing-md $spacing-sm 40px;
+      border: 1px solid $gray-200;
+      border-radius: $border-radius-full;
+      font-size: $font-size-sm;
+      background: $gray-50;
+      transition: all $transition;
+      
+      &:focus {
+        outline: none;
+        border-color: $primary;
+        background: $white;
+      }
+      
+      &::placeholder {
+        color: $gray-400;
+      }
+    }
   }
 
   .nav-list {
     @include flex-center;
     gap: $spacing-sm;
+    flex-shrink: 0;
   }
 
   .nav-link {

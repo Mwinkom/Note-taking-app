@@ -39,6 +39,10 @@ export class NotesDashboardComponent implements OnInit {
     this.notes$.subscribe(notes => {
       this.notes = notes.filter(note => !note.isArchived);
     });
+    
+    this.noteService.searchTerm$.subscribe(term => {
+      this.searchTerm = term;
+    });
   }
   
   private addMockNotes() {
