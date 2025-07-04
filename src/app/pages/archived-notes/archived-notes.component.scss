@@ -27,10 +27,12 @@
   padding: $spacing-lg;
   transition: all $transition;
   background: $white;
+  cursor: pointer;
   
   &:hover {
     background: rgba($primary, 0.05);
     border-color: $primary;
+    transform: translateY(-1px);
   }
   
   h3 {
