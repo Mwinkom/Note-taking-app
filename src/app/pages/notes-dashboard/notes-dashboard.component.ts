@@ -31,6 +31,8 @@ export class NotesDashboardComponent implements OnInit {
 
   notes: Note[] = [];
   
+  selectedTag = '';
+  
   ngOnInit() {
     // Clear existing data
     localStorage.removeItem('notes');
@@ -42,6 +44,10 @@ export class NotesDashboardComponent implements OnInit {
     
     this.noteService.searchTerm$.subscribe(term => {
       this.searchTerm = term;
+    });
+    
+    this.noteService.selectedTag$.subscribe(tag => {
+      this.selectedTag = tag;
     });
   }
   
@@ -73,7 +79,23 @@ export class NotesDashboardComponent implements OnInit {
   }
   
   get filteredNotes() {
-    if (!this.searchTerm.trim()) return this.notes;
-    return this.noteService.searchNotes(this.searchTerm).filter(note => !note.isArchived);
+    let filtered = this.notes;
+    
+    // Filter by tag first
+    if (this.selectedTag) {
+      filtered = filtered.filter(note => note.tags.includes(this.selectedTag));
+    }
+    
+    // Then filter by search term
+    if (this.searchTerm.trim()) {
+      const term = this.searchTerm.toLowerCase();
+      filtered = filtered.filter(note => {
+        return note.title.toLowerCase().includes(term) ||
+               note.content.toLowerCase().includes(term) ||
+               note.tags.some(tag => tag.toLowerCase().includes(term));
+      });
+    }
+    
+    return filtered;
   }
 }

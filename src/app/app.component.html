@@ -2,15 +2,39 @@
   <div class="nav-container">
     <img src="note-icon.png" alt="Logo" class="nav-logo">
     
-    <div class="nav-search">
-      <lucide-icon [img]="SearchIcon" size="16" class="nav-search-icon"></lucide-icon>
-      <input
-        type="text"
-        [(ngModel)]="searchTerm"
-        (input)="onSearchChange()"
-        placeholder="Search notes..."
-        class="nav-search-bar"
-      />
+    <div class="nav-filters">
+      <div class="nav-search">
+        <lucide-icon [img]="SearchIcon" size="16" class="nav-search-icon"></lucide-icon>
+        <input
+          type="text"
+          [(ngModel)]="searchTerm"
+          (input)="onSearchChange()"
+          placeholder="Search notes..."
+          class="nav-search-bar"
+        />
+      </div>
+      
+      <div class="tag-filter" [class.active]="selectedTag">
+        <button class="tag-filter-btn" (click)="toggleTagDropdown()">
+          <lucide-icon [img]="FilterIcon" size="14"></lucide-icon>
+          <span *ngIf="selectedTag; else defaultText">{{ selectedTag }}</span>
+          <ng-template #defaultText>Tags</ng-template>
+        </button>
+        
+        <div class="tag-dropdown" *ngIf="showTagDropdown">
+          <button class="tag-option" (click)="clearTagFilter()" [class.selected]="!selectedTag">
+            All Tags
+          </button>
+          <button 
+            class="tag-option" 
+            *ngFor="let tag of allTags" 
+            (click)="selectTag(tag)"
+            [class.selected]="selectedTag === tag"
+          >
+            {{ tag }}
+          </button>
+        </div>
+      </div>
     </div>
     
     <ul class="nav-list">
