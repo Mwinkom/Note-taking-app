@@ -1,0 +1,68 @@
+<div class="search-filter-container">
+  <div class="search-filter-content">
+    <div class="search-section">
+      <lucide-icon [img]="SearchIcon" size="16" class="search-icon"></lucide-icon>
+      <input
+        type="text"
+        [(ngModel)]="searchTerm"
+        (input)="onSearchChange()"
+        placeholder="Search notes..."
+        class="search-input"
+        aria-label="Search notes"
+        role="searchbox"
+      />
+    </div>
+    
+    <div class="filter-section" [class.active]="selectedTag">
+      <button 
+        class="filter-btn" 
+        (click)="toggleTagDropdown()" 
+        (keydown.enter)="toggleTagDropdown()" 
+        (keydown.space)="toggleTagDropdown()"
+        (keydown.escape)="closeTagDropdown()"
+        [attr.aria-expanded]="showTagDropdown"
+        aria-haspopup="listbox"
+        aria-label="Filter notes by tags"
+      >
+        <lucide-icon [img]="TagIcon" size="14"></lucide-icon>
+        <span *ngIf="selectedTag; else defaultText">{{ selectedTag }}</span>
+        <ng-template #defaultText>Filter by Tags</ng-template>
+      </button>
+      
+      <div 
+        class="filter-dropdown" 
+        *ngIf="showTagDropdown"
+        role="listbox"
+        aria-label="Tag filter options"
+      >
+        <button 
+          class="filter-option" 
+          (click)="clearTagFilter()" 
+          (keydown)="handleTagKeydown($event)"
+          (keydown.enter)="clearTagFilter()" 
+          (keydown.space)="clearTagFilter()"
+          [class.selected]="!selectedTag"
+          role="option"
+          [attr.aria-selected]="!selectedTag"
+          aria-label="Show all notes"
+        >
+          All Tags
+        </button>
+        <button 
+          class="filter-option" 
+          *ngFor="let tag of allTags" 
+          (click)="selectTag(tag)"
+          (keydown)="handleTagKeydown($event)"
+          (keydown.enter)="selectTag(tag)" 
+          (keydown.space)="selectTag(tag)"
+          [class.selected]="selectedTag === tag"
+          role="option"
+          [attr.aria-selected]="selectedTag === tag"
+          [attr.aria-label]="'Filter by ' + tag + ' tag'"
+        >
+          {{ tag }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

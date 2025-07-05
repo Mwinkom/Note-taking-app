@@ -12,68 +12,6 @@
     <div class="desktop-nav">
       <img src="note-icon.png" alt="Logo" class="nav-logo">
       
-      <div class="nav-filters">
-        <div class="nav-search">
-          <lucide-icon [img]="SearchIcon" size="16" class="nav-search-icon"></lucide-icon>
-          <input
-            type="text"
-            [(ngModel)]="searchTerm"
-            (input)="onSearchChange()"
-            placeholder="Search notes..."
-            class="nav-search-bar"
-            aria-label="Search notes"
-            role="searchbox"
-            tabindex="0"
-          />
-        </div>
-        
-        <div class="tag-filter" [class.active]="selectedTag">
-          <button 
-            class="tag-filter-btn" 
-            (click)="toggleTagDropdown()" 
-            (keydown)="handleTagKeydown($event)"
-            [attr.aria-expanded]="showTagDropdown"
-            aria-haspopup="listbox"
-            aria-label="Filter notes by tags"
-          >
-            <lucide-icon [img]="TagIcon" size="14"></lucide-icon>
-            <span *ngIf="selectedTag; else defaultText">{{ selectedTag }}</span>
-            <ng-template #defaultText>Tags</ng-template>
-          </button>
-          
-          <div 
-            class="tag-dropdown" 
-            *ngIf="showTagDropdown"
-            role="listbox"
-            aria-label="Tag filter options"
-          >
-            <button 
-              class="tag-option" 
-              (click)="clearTagFilter()" 
-              (keydown)="handleTagKeydown($event)"
-              [class.selected]="!selectedTag"
-              role="option"
-              [attr.aria-selected]="!selectedTag"
-              aria-label="Show all notes"
-            >
-              All Tags
-            </button>
-            <button 
-              class="tag-option" 
-              *ngFor="let tag of allTags" 
-              (click)="selectTag(tag)"
-              (keydown)="handleTagKeydown($event)"
-              [class.selected]="selectedTag === tag"
-              role="option"
-              [attr.aria-selected]="selectedTag === tag"
-              [attr.aria-label]="'Filter by ' + tag + ' tag'"
-            >
-              {{ tag }}
-            </button>
-          </div>
-        </div>
-      </div>
-      
       <ul class="nav-list">
         <li class="nav-item">
           <a class="nav-link" routerLink="/notes" routerLinkActive="active" ariaCurrentWhenActive="page" (keydown.enter)="handleNavClick($event)">
@@ -91,71 +29,12 @@
           </a>
         </li>
       </ul>
+      
+      <app-settings></app-settings>
     </div>
     
     <!-- Mobile Menu -->
     <div class="mobile-menu" [class.open]="isMobileMenuOpen">
-      <div class="mobile-filters">
-        <div class="nav-search">
-          <lucide-icon [img]="SearchIcon" size="16" class="nav-search-icon"></lucide-icon>
-          <input
-            type="text"
-            [(ngModel)]="searchTerm"
-            (input)="onSearchChange()"
-            placeholder="Search notes..."
-            class="nav-search-bar"
-            aria-label="Search notes"
-            role="searchbox"
-          />
-        </div>
-        
-        <div class="tag-filter" [class.active]="selectedTag">
-          <button 
-            class="tag-filter-btn" 
-            (click)="toggleTagDropdown()" 
-            (keydown)="handleTagKeydown($event)"
-            [attr.aria-expanded]="showTagDropdown"
-            aria-haspopup="listbox"
-            aria-label="Filter notes by tags"
-          >
-            <lucide-icon [img]="TagIcon" size="14"></lucide-icon>
-            <span *ngIf="selectedTag; else defaultTextMobile">{{ selectedTag }}</span>
-            <ng-template #defaultTextMobile>Filter by Tags</ng-template>
-          </button>
-          
-          <div 
-            class="tag-dropdown" 
-            *ngIf="showTagDropdown"
-            role="listbox"
-            aria-label="Tag filter options"
-          >
-            <button 
-              class="tag-option" 
-              (click)="clearTagFilter()" 
-              (keydown)="handleTagKeydown($event)"
-              [class.selected]="!selectedTag"
-              role="option"
-              [attr.aria-selected]="!selectedTag"
-              aria-label="Show all notes"
-            >
-              All Tags
-            </button>
-            <button 
-              class="tag-option" 
-              *ngFor="let tag of allTags" 
-              (click)="selectTag(tag)"
-              (keydown)="handleTagKeydown($event)"
-              [class.selected]="selectedTag === tag"
-              role="option"
-              [attr.aria-selected]="selectedTag === tag"
-              [attr.aria-label]="'Filter by ' + tag + ' tag'"
-            >
-              {{ tag }}
-            </button>
-          </div>
-        </div>
-      </div>
-      
       <ul class="mobile-nav-list" role="navigation" aria-label="Main navigation">
         <li class="mobile-nav-item">
           <a class="mobile-nav-link" routerLink="/notes" routerLinkActive="active" (click)="closeMobileMenu()" (keydown.enter)="closeMobileMenu()">
@@ -171,6 +50,9 @@
           <a class="mobile-nav-link" routerLink="/create" routerLinkActive="active" (click)="closeMobileMenu()" (keydown.enter)="closeMobileMenu()">
             Create Note
           </a>
+        </li>
+        <li class="mobile-nav-item mobile-settings">
+          <app-settings></app-settings>
         </li>
       </ul>
     </div>

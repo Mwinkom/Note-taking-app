@@ -6,11 +6,12 @@ import { RouterModule, Router } from '@angular/router';
 import { LucideAngularModule, Archive, Edit, Search, Tag } from 'lucide-angular';
 import { Note } from '../../models/note.model';
 import { Subscription } from 'rxjs';
+import { SearchFilterComponent } from '../../components/search-filter/search-filter.component';
 
 
 @Component({
   selector: 'app-archived-notes',
-  imports: [CommonModule, FormsModule, RouterModule, LucideAngularModule],
+  imports: [CommonModule, FormsModule, RouterModule, LucideAngularModule, SearchFilterComponent],
   templateUrl: './archived-notes.component.html',
   styleUrl: './archived-notes.component.scss'
 })

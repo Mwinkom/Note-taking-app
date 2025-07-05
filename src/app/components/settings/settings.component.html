@@ -1,0 +1,97 @@
+<div class="settings-container">
+  <!-- Settings Button -->
+  <button 
+    class="settings-btn" 
+    (click)="toggleSettings()" 
+    (keydown.enter)="toggleSettings()" 
+    (keydown.space)="toggleSettings()"
+    (keydown.escape)="closeSettings()"
+    [attr.aria-expanded]="showSettings"
+    aria-haspopup="dialog"
+    aria-label="Open settings"
+  >
+    <lucide-icon [img]="SettingsIcon" size="16"></lucide-icon>
+    <span class="settings-text">Settings</span>
+  </button>
+  
+  <!-- Settings Modal -->
+  <div 
+    class="settings-modal" 
+    *ngIf="showSettings"
+    role="dialog"
+    aria-labelledby="settings-title"
+    aria-modal="true"
+  >
+    <div class="settings-content" (keydown)="handleSettingsKeydown($event)">
+      <!-- Header -->
+      <div class="settings-header">
+        <h2 id="settings-title">Settings</h2>
+        <button 
+          class="close-btn" 
+          (click)="closeSettings()" 
+          (keydown.enter)="closeSettings()" 
+          (keydown.space)="closeSettings()"
+          aria-label="Close settings"
+        >
+          <lucide-icon [img]="CloseIcon" size="16"></lucide-icon>
+        </button>
+      </div>
+      
+      <!-- Color Theme Section -->
+      <div class="settings-section">
+        <div class="section-header">
+          <lucide-icon [img]="PaletteIcon" size="16"></lucide-icon>
+          <h3>Color Theme</h3>
+        </div>
+        <div class="theme-options">
+          <button 
+            *ngFor="let theme of colorThemes" 
+            class="theme-option"
+            [class.active]="preferences.colorTheme === theme.value"
+            (click)="setColorTheme(theme.value)"
+            (keydown.enter)="setColorTheme(theme.value)"
+            (keydown.space)="setColorTheme(theme.value)"
+            (keydown)="handleButtonKeydown($event)"
+            [attr.aria-pressed]="preferences.colorTheme === theme.value"
+            [attr.aria-label]="'Select ' + theme.label + ' theme'"
+          >
+            <div class="theme-preview" [attr.data-theme]="theme.value"></div>
+            <span>{{ theme.label }}</span>
+          </button>
+        </div>
+      </div>
+      
+      <!-- Font Theme Section -->
+      <div class="settings-section">
+        <div class="section-header">
+          <lucide-icon [img]="TypeIcon" size="16"></lucide-icon>
+          <h3>Font Style</h3>
+        </div>
+        <div class="theme-options">
+          <button 
+            *ngFor="let font of fontThemes" 
+            class="theme-option font-option"
+            [class.active]="preferences.fontTheme === font.value"
+            [style.font-family]="getFontFamily(font.value)"
+            (click)="setFontTheme(font.value)"
+            (keydown.enter)="setFontTheme(font.value)"
+            (keydown.space)="setFontTheme(font.value)"
+            (keydown)="handleButtonKeydown($event)"
+            [attr.aria-pressed]="preferences.fontTheme === font.value"
+            [attr.aria-label]="'Select ' + font.label + ' font'"
+          >
+            <span>{{ font.label }}</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Backdrop -->
+  <div 
+    class="settings-backdrop" 
+    *ngIf="showSettings" 
+    (click)="closeSettings()"
+    aria-hidden="true"
+  ></div>
+</div>

@@ -4,12 +4,13 @@ import { NoteService } from '../../services/note.service';
 import { Note } from '../../models/note.model';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
-import { LucideAngularModule, FileText, Search, Tag, Archive, Edit } from 'lucide-angular';
+import { LucideAngularModule, FileText, Archive, Edit, Tag, Search } from 'lucide-angular';
 import { Subscription } from 'rxjs';
+import { SearchFilterComponent } from '../../components/search-filter/search-filter.component';
 
 @Component({
   selector: 'app-notes-dashboard',
-  imports: [CommonModule, FormsModule, RouterModule, LucideAngularModule],
+  imports: [CommonModule, FormsModule, RouterModule, LucideAngularModule, SearchFilterComponent],
   templateUrl: './notes-dashboard.component.html',
   styleUrl: './notes-dashboard.component.scss'
 })
@@ -50,12 +51,8 @@ export class NotesDashboardComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.noteService.loadNotesFromStorage();
     
-    // Only add mock notes if no notes exist
     this.subscriptions.add(
       this.notes$.subscribe(notes => {
-        if (notes.length === 0) {
-          this.addMockNotes();
-        }
         this.notes = notes.filter(note => !note.isArchived);
       })
     );
@@ -77,32 +74,7 @@ export class NotesDashboardComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
   
-  private addMockNotes() {
-    const mockNotes = [
-      {
-        title: 'Meeting Notes',
-        content: 'Discussed project timeline and deliverables for Q1. Need to follow up with design team.',
-        tags: ['work', 'meeting'],
-        isArchived: false
-      },
-      {
-        title: 'Recipe Ideas',
-        content: 'Try making pasta with garlic, olive oil, and fresh herbs. Simple but delicious.',
-        tags: ['cooking', 'recipes'],
-        isArchived: false
-      },
-      {
-        title: 'Book Recommendations',
-        content: 'The Design of Everyday Things by Don Norman. Great insights on user experience.',
-        tags: ['books', 'design'],
-        isArchived: false
-      }
-    ];
-    
-    mockNotes.forEach(note => {
-      this.noteService.createNote(note);
-    });
-  }
+
   
   get filteredNotes() {
     let filtered = this.notes;

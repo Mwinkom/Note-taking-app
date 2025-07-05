@@ -1,6 +1,7 @@
 <div class="container">
-
-  <div class="notes-grid">
+  <app-search-filter></app-search-filter>
+  
+  <div class="notes-grid" *ngIf="filteredNotes.length > 0">
     <div
       class="note-card"
       *ngFor="let note of filteredNotes; trackBy: trackByNoteId"
@@ -18,6 +19,36 @@
           Archive
         </button>
       </div>
+    </div>
+  </div>
+  
+  <!-- Empty States -->
+  <div class="empty-state" *ngIf="filteredNotes.length === 0">
+    <div class="empty-content">
+      <div class="empty-icon" *ngIf="searchTerm || selectedTag; else noNotesIcon">
+        <lucide-icon [img]="SearchIcon" size="48"></lucide-icon>
+      </div>
+      <ng-template #noNotesIcon>
+        <div class="empty-icon">
+          <lucide-icon [img]="FileTextIcon" size="48"></lucide-icon>
+        </div>
+      </ng-template>
+      
+      <h3 *ngIf="searchTerm || selectedTag; else noNotesTitle">No results found</h3>
+      <ng-template #noNotesTitle>
+        <h3>No notes yet</h3>
+      </ng-template>
+      
+      <p *ngIf="searchTerm || selectedTag; else noNotesMessage">
+        Try adjusting your search or filter to find what you're looking for.
+      </p>
+      <ng-template #noNotesMessage>
+        <p>Start by creating your first note to capture your thoughts and ideas.</p>
+      </ng-template>
+      
+      <a class="empty-action" routerLink="/create" *ngIf="!searchTerm && !selectedTag">
+        Create Your First Note
+      </a>
     </div>
   </div>
 </div>

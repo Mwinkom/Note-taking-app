@@ -1,26 +1,86 @@
-// Colors
-$primary: #6366f1;
-$primary-light: #818cf8;
-$secondary: #10b981;
-$accent: #f59e0b;
+// CSS Custom Properties for theming
+:root {
+  --primary: #6366f1;
+  --primary-light: #818cf8;
+  --secondary: #10b981;
+  --accent: #f59e0b;
+  
+  --white: #ffffff;
+  --gray-50: #f9fafb;
+  --gray-100: #f3f4f6;
+  --gray-200: #e5e7eb;
+  --gray-300: #d1d5db;
+  --gray-400: #9ca3af;
+  --gray-500: #6b7280;
+  --gray-600: #4b5563;
+  --gray-700: #374151;
+  --gray-900: #111827;
+  
+  --font-family: 'Inter', sans-serif;
+  --form-bg: #ffffff;
+  --form-border: #e5e7eb;
+}
 
-$white: #ffffff;
-$gray-50: #f9fafb;
-$gray-100: #f3f4f6;
-$gray-200: #e5e7eb;
-$gray-300: #d1d5db;
-$gray-400: #9ca3af;
-$gray-500: #6b7280;
-$gray-600: #4b5563;
-$gray-700: #374151;
-$gray-900: #111827;
+// Dark theme
+.theme-dark {
+  --white: #1f2937;
+  --gray-50: #374151;
+  --gray-100: #4b5563;
+  --gray-200: #6b7280;
+  --gray-300: #9ca3af;
+  --gray-400: #d1d5db;
+  --gray-500: #e5e7eb;
+  --gray-600: #f3f4f6;
+  --gray-700: #f9fafb;
+  --gray-900: #ffffff;
+  --primary: #818cf8;
+  --form-bg: #374151;
+  --form-border: #6b7280;
+}
+
+// Custom theme
+.theme-custom {
+  --primary: #10b981;
+  --primary-light: #34d399;
+}
+
+// Font themes
+.font-serif {
+  --font-family: Georgia, serif;
+}
+
+.font-monospace {
+  --font-family: Monaco, monospace;
+}
+
+// SCSS Variables (using CSS custom properties)
+$primary: var(--primary);
+$primary-light: var(--primary-light);
+$secondary: var(--secondary);
+$accent: var(--accent);
+
+$white: var(--white);
+$gray-50: var(--gray-50);
+$gray-100: var(--gray-100);
+$gray-200: var(--gray-200);
+$gray-300: var(--gray-300);
+$gray-400: var(--gray-400);
+$gray-500: var(--gray-500);
+$gray-600: var(--gray-600);
+$gray-700: var(--gray-700);
+$gray-900: var(--gray-900);
 
 // Typography
-$font-family: 'Inter', sans-serif;
+$font-family: var(--font-family);
 $font-size-sm: 0.875rem;
 $font-size-base: 1rem;
 $font-weight-medium: 500;
 $font-weight-bold: 700;
+
+// Apply font family globally
+body {
+  font-family: $font-family;
+}
 
 // Spacing
 $spacing-xs: 0.25rem;

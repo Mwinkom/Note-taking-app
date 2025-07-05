@@ -78,9 +78,11 @@
     .form-input, .form-textarea {
       width: 100%;
       padding: $spacing-md;
-      border: 1px solid $gray-200;
+      border: 1px solid var(--form-border);
       border-radius: $border-radius;
       font-size: $font-size-base;
+      background: var(--form-bg);
+      color: $gray-900;
       transition: all $transition;
       
       &:focus {
