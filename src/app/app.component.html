@@ -31,14 +31,12 @@
           <button 
             class="tag-filter-btn" 
             (click)="toggleTagDropdown()" 
-            (keydown.enter)="toggleTagDropdown()" 
-            (keydown.space)="toggleTagDropdown()"
-            (keydown.escape)="closeTagDropdown()"
+            (keydown)="handleTagKeydown($event)"
             [attr.aria-expanded]="showTagDropdown"
             aria-haspopup="listbox"
             aria-label="Filter notes by tags"
           >
-            <lucide-icon [img]="FilterIcon" size="14"></lucide-icon>
+            <lucide-icon [img]="TagIcon" size="14"></lucide-icon>
             <span *ngIf="selectedTag; else defaultText">{{ selectedTag }}</span>
             <ng-template #defaultText>Tags</ng-template>
           </button>
@@ -52,8 +50,7 @@
             <button 
               class="tag-option" 
               (click)="clearTagFilter()" 
-              (keydown.enter)="clearTagFilter()" 
-              (keydown.space)="clearTagFilter()"
+              (keydown)="handleTagKeydown($event)"
               [class.selected]="!selectedTag"
               role="option"
               [attr.aria-selected]="!selectedTag"
@@ -65,8 +62,7 @@
               class="tag-option" 
               *ngFor="let tag of allTags" 
               (click)="selectTag(tag)"
-              (keydown.enter)="selectTag(tag)" 
-              (keydown.space)="selectTag(tag)"
+              (keydown)="handleTagKeydown($event)"
               [class.selected]="selectedTag === tag"
               role="option"
               [attr.aria-selected]="selectedTag === tag"
@@ -117,14 +113,12 @@
           <button 
             class="tag-filter-btn" 
             (click)="toggleTagDropdown()" 
-            (keydown.enter)="toggleTagDropdown()" 
-            (keydown.space)="toggleTagDropdown()"
-            (keydown.escape)="closeTagDropdown()"
+            (keydown)="handleTagKeydown($event)"
             [attr.aria-expanded]="showTagDropdown"
             aria-haspopup="listbox"
             aria-label="Filter notes by tags"
           >
-            <lucide-icon [img]="FilterIcon" size="14"></lucide-icon>
+            <lucide-icon [img]="TagIcon" size="14"></lucide-icon>
             <span *ngIf="selectedTag; else defaultTextMobile">{{ selectedTag }}</span>
             <ng-template #defaultTextMobile>Filter by Tags</ng-template>
           </button>
@@ -138,8 +132,7 @@
             <button 
               class="tag-option" 
               (click)="clearTagFilter()" 
-              (keydown.enter)="clearTagFilter()" 
-              (keydown.space)="clearTagFilter()"
+              (keydown)="handleTagKeydown($event)"
               [class.selected]="!selectedTag"
               role="option"
               [attr.aria-selected]="!selectedTag"
@@ -151,8 +144,7 @@
               class="tag-option" 
               *ngFor="let tag of allTags" 
               (click)="selectTag(tag)"
-              (keydown.enter)="selectTag(tag)" 
-              (keydown.space)="selectTag(tag)"
+              (keydown)="handleTagKeydown($event)"
               [class.selected]="selectedTag === tag"
               role="option"
               [attr.aria-selected]="selectedTag === tag"

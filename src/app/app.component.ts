@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
-import { LucideAngularModule, Search, Filter, Menu, X } from 'lucide-angular';
+import { LucideAngularModule, Search, Tag, Menu, X } from 'lucide-angular';
 import { FormsModule } from '@angular/forms';
 import { NoteService } from './services/note.service';
 import { CommonModule } from '@angular/common';
@@ -18,7 +18,7 @@ export class AppComponent {
   showTagDropdown = false;
   
   SearchIcon = Search;
-  FilterIcon = Filter;
+  TagIcon = Tag;
   MenuIcon = Menu;
   CloseIcon = X;
   
@@ -64,5 +64,12 @@ export class AppComponent {
   
   handleNavClick(event: Event): void {
     (event.target as HTMLElement).click();
+  }
+  
+  handleTagKeydown(event: KeyboardEvent): void {
+    if (event.key === 'Escape') {
+      this.closeTagDropdown();
+    }
+    event.stopPropagation();
   }
 }
