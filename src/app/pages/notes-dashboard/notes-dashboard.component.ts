@@ -1,10 +1,11 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NoteService } from '../../services/note.service';
 import { Note } from '../../models/note.model';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { LucideAngularModule, FileText, Search, Tag, Archive, Edit } from 'lucide-angular';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-notes-dashboard',
@@ -13,11 +14,12 @@ import { LucideAngularModule, FileText, Search, Tag, Archive, Edit } from 'lucid
   styleUrl: './notes-dashboard.component.scss'
 })
 
-export class NotesDashboardComponent implements OnInit {  
+export class NotesDashboardComponent implements OnInit, OnDestroy {  
   private noteService = inject(NoteService);
   private router = inject(Router);
   notes$ = this.noteService.notes$;
   searchTerm: string = '';
+  private subscriptions = new Subscription();
   
   // Icons
   FileTextIcon = FileText;
@@ -49,20 +51,30 @@ export class NotesDashboardComponent implements OnInit {
     this.noteService.loadNotesFromStorage();
     
     // Only add mock notes if no notes exist
-    this.notes$.subscribe(notes => {
-      if (notes.length === 0) {
-        this.addMockNotes();
-      }
-      this.notes = notes.filter(note => !note.isArchived);
-    });
+    this.subscriptions.add(
+      this.notes$.subscribe(notes => {
+        if (notes.length === 0) {
+          this.addMockNotes();
+        }
+        this.notes = notes.filter(note => !note.isArchived);
+      })
+    );
     
-    this.noteService.searchTerm$.subscribe(term => {
-      this.searchTerm = term;
-    });
+    this.subscriptions.add(
+      this.noteService.searchTerm$.subscribe(term => {
+        this.searchTerm = term;
+      })
+    );
     
-    this.noteService.selectedTag$.subscribe(tag => {
-      this.selectedTag = tag;
-    });
+    this.subscriptions.add(
+      this.noteService.selectedTag$.subscribe(tag => {
+        this.selectedTag = tag;
+      })
+    );
+  }
+  
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
   
   private addMockNotes() {

@@ -49,7 +49,7 @@ export class CreateNoteComponent {
   
   updateTags(event: Event): void {
     const target = event.target as HTMLInputElement;
-    const tags = target.value.split(',').map(t => t.trim()).filter(t => t);
+    const tags = this.noteService.parseTagsFromInput(target.value);
     this.noteForm.patchValue({ tags });
   }
   
