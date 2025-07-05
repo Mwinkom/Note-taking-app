@@ -1,23 +1,26 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NoteService } from '../../services/note.service';
 import { Note } from '../../models/note.model';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
-import { LucideAngularModule, FileText, Search, Tag, Archive, Edit } from 'lucide-angular';
+import { LucideAngularModule, FileText, Archive, Edit, Tag, Search } from 'lucide-angular';
+import { Subscription } from 'rxjs';
+import { SearchFilterComponent } from '../../components/search-filter/search-filter.component';
 
 @Component({
   selector: 'app-notes-dashboard',
-  imports: [CommonModule, FormsModule, RouterModule, LucideAngularModule],
+  imports: [CommonModule, FormsModule, RouterModule, LucideAngularModule, SearchFilterComponent],
   templateUrl: './notes-dashboard.component.html',
   styleUrl: './notes-dashboard.component.scss'
 })
 
-export class NotesDashboardComponent implements OnInit {  
+export class NotesDashboardComponent implements OnInit, OnDestroy {  
   private noteService = inject(NoteService);
   private router = inject(Router);
   notes$ = this.noteService.notes$;
   searchTerm: string = '';
+  private subscriptions = new Subscription();
   
   // Icons
   FileTextIcon = FileText;
@@ -48,49 +51,30 @@ export class NotesDashboardComponent implements OnInit {
   ngOnInit() {
     this.noteService.loadNotesFromStorage();
     
-    // Only add mock notes if no notes exist
-    this.notes$.subscribe(notes => {
-      if (notes.length === 0) {
-        this.addMockNotes();
-      }
-      this.notes = notes.filter(note => !note.isArchived);
-    });
+    this.subscriptions.add(
+      this.notes$.subscribe(notes => {
+        this.notes = notes.filter(note => !note.isArchived);
+      })
+    );
     
-    this.noteService.searchTerm$.subscribe(term => {
-      this.searchTerm = term;
-    });
+    this.subscriptions.add(
+      this.noteService.searchTerm$.subscribe(term => {
+        this.searchTerm = term;
+      })
+    );
     
-    this.noteService.selectedTag$.subscribe(tag => {
-      this.selectedTag = tag;
-    });
+    this.subscriptions.add(
+      this.noteService.selectedTag$.subscribe(tag => {
+        this.selectedTag = tag;
+      })
+    );
   }
   
-  private addMockNotes() {
-    const mockNotes = [
-      {
-        title: 'Meeting Notes',
-        content: 'Discussed project timeline and deliverables for Q1. Need to follow up with design team.',
-        tags: ['work', 'meeting'],
-        isArchived: false
-      },
-      {
-        title: 'Recipe Ideas',
-        content: 'Try making pasta with garlic, olive oil, and fresh herbs. Simple but delicious.',
-        tags: ['cooking', 'recipes'],
-        isArchived: false
-      },
-      {
-        title: 'Book Recommendations',
-        content: 'The Design of Everyday Things by Don Norman. Great insights on user experience.',
-        tags: ['books', 'design'],
-        isArchived: false
-      }
-    ];
-    
-    mockNotes.forEach(note => {
-      this.noteService.createNote(note);
-    });
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
+  
+
   
   get filteredNotes() {
     let filtered = this.notes;

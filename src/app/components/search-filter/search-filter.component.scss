@@ -1,0 +1,137 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.search-filter-container {
+  padding: $spacing-lg 0;
+  margin-bottom: $spacing-lg;
+  
+  @media (max-width: 768px) {
+    padding: $spacing-md 0;
+    margin-bottom: $spacing-md;
+  }
+}
+
+.search-filter-content {
+  display: flex;
+  gap: $spacing-md;
+  align-items: center;
+  
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: $spacing-sm;
+    align-items: stretch;
+  }
+}
+
+.search-section {
+  flex: 1;
+  position: relative;
+  
+  .search-icon {
+    position: absolute;
+    left: $spacing-md;
+    top: 50%;
+    transform: translateY(-50%);
+    color: $primary;
+    z-index: 1;
+  }
+  
+  .search-input {
+    width: 100%;
+    padding: $spacing-sm $spacing-md $spacing-sm 40px;
+    border: 1px solid var(--form-border);
+    border-radius: $border-radius-full;
+    font-size: $font-size-sm;
+    background: var(--form-bg);
+    color: $gray-900;
+    transition: all $transition;
+    
+    &:focus {
+      outline: none;
+      border-color: $primary;
+      box-shadow: 0 0 0 3px rgba($primary, 0.1);
+    }
+    
+    &::placeholder {
+      color: $gray-400;
+    }
+  }
+}
+
+.filter-section {
+  position: relative;
+  
+  .filter-btn {
+    @include btn-base;
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
+    background: $gray-50;
+    color: $gray-600;
+    border: 1px solid $gray-200;
+    white-space: nowrap;
+    
+    &:hover {
+      background: $white;
+      border-color: $primary;
+    }
+    
+    &:focus {
+      outline: none;
+      border-color: $primary;
+      box-shadow: 0 0 0 3px rgba($primary, 0.1);
+    }
+  }
+  
+  &.active .filter-btn {
+    background: $primary;
+    color: $white;
+    border-color: $primary;
+  }
+  
+  .filter-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: $white;
+    border: 1px solid $gray-200;
+    border-radius: $border-radius;
+    box-shadow: $shadow-md;
+    min-width: 150px;
+    z-index: 1000;
+    
+    @media (max-width: 768px) {
+      left: 0;
+      right: auto;
+      min-width: 200px;
+    }
+    
+    .filter-option {
+      display: block;
+      width: 100%;
+      padding: $spacing-sm $spacing-md;
+      border: none;
+      background: none;
+      text-align: left;
+      font-size: $font-size-sm;
+      color: $gray-600;
+      cursor: pointer;
+      transition: all $transition;
+      
+      &:hover {
+        background: $gray-50;
+      }
+      
+      &:focus {
+        outline: none;
+        background: rgba($primary, 0.05);
+        color: $primary;
+      }
+      
+      &.selected {
+        background: $primary;
+        color: $white;
+      }
+    }
+  }
+}

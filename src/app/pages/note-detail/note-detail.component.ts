@@ -1,10 +1,11 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { NoteService } from '../../services/note.service';
 import { Note } from '../../models/note.model';
 import { LucideAngularModule, ArrowLeft, Edit, Trash2, Save, X, Tag } from 'lucide-angular';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-note-detail',
@@ -12,7 +13,7 @@ import { LucideAngularModule, ArrowLeft, Edit, Trash2, Save, X, Tag } from 'luci
   templateUrl: './note-detail.component.html',
   styleUrl: './note-detail.component.scss'
 })
-export class NoteDetailComponent implements OnInit {
+export class NoteDetailComponent implements OnInit, OnDestroy {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private noteService = inject(NoteService);
@@ -22,6 +23,7 @@ export class NoteDetailComponent implements OnInit {
   isEditMode = false;
   isLoading = true;
   noteForm: FormGroup;
+  private subscriptions = new Subscription();
   
   // Icons
   ArrowLeftIcon = ArrowLeft;
@@ -40,10 +42,16 @@ export class NoteDetailComponent implements OnInit {
   }
   
   ngOnInit(): void {
-    this.route.params.subscribe(params => {
-      const noteId = params['id'];
-      this.loadNote(noteId);
-    });
+    this.subscriptions.add(
+      this.route.params.subscribe(params => {
+        const noteId = params['id'];
+        this.loadNote(noteId);
+      })
+    );
+  }
+  
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
   
   loadNote(id: string): void {
@@ -121,7 +129,7 @@ export class NoteDetailComponent implements OnInit {
   
   updateTags(event: Event): void {
     const target = event.target as HTMLInputElement;
-    const tags = target.value.split(',').map(t => t.trim()).filter(t => t);
+    const tags = this.noteService.parseTagsFromInput(target.value);
     this.noteForm.patchValue({ tags });
   }
 }

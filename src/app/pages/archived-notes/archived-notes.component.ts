@@ -1,24 +1,27 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, OnDestroy } from '@angular/core';
 import { NoteService } from '../../services/note.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 import { LucideAngularModule, Archive, Edit, Search, Tag } from 'lucide-angular';
 import { Note } from '../../models/note.model';
+import { Subscription } from 'rxjs';
+import { SearchFilterComponent } from '../../components/search-filter/search-filter.component';
 
 
 @Component({
   selector: 'app-archived-notes',
-  imports: [CommonModule, FormsModule, RouterModule, LucideAngularModule],
+  imports: [CommonModule, FormsModule, RouterModule, LucideAngularModule, SearchFilterComponent],
   templateUrl: './archived-notes.component.html',
   styleUrl: './archived-notes.component.scss'
 })
 
-export class ArchivedNotesComponent implements OnInit {
+export class ArchivedNotesComponent implements OnInit, OnDestroy {
   private noteService = inject(NoteService);
   private router = inject(Router);
   notes: Note[] = [];
   searchTerm: string = '';
+  private subscriptions = new Subscription();
 
   ArchiveIcon = Archive;
   EditIcon = Edit;
@@ -30,17 +33,27 @@ export class ArchivedNotesComponent implements OnInit {
   ngOnInit(): void {
     this.noteService.loadNotesFromStorage();
     
-    this.noteService.notes$.subscribe(notes => {
-      this.notes = notes.filter(note => note.isArchived);
-    });
+    this.subscriptions.add(
+      this.noteService.notes$.subscribe(notes => {
+        this.notes = notes.filter(note => note.isArchived);
+      })
+    );
     
-    this.noteService.searchTerm$.subscribe(term => {
-      this.searchTerm = term;
-    });
+    this.subscriptions.add(
+      this.noteService.searchTerm$.subscribe(term => {
+        this.searchTerm = term;
+      })
+    );
     
-    this.noteService.selectedTag$.subscribe(tag => {
-      this.selectedTag = tag;
-    });
+    this.subscriptions.add(
+      this.noteService.selectedTag$.subscribe(tag => {
+        this.selectedTag = tag;
+      })
+    );
+  }
+  
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 
   unarchiveNote(id: string, event?: Event): void {

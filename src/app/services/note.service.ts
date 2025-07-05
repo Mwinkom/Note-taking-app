@@ -109,5 +109,9 @@ export class NoteService {
         note.tags.some(tag => tag.toLowerCase().includes(lowercaseTerm));
       });
     }
+    
+    parseTagsFromInput(input: string): string[] {
+      return input.split(',').map(t => t.trim()).filter(t => t);
+    }
 
 }

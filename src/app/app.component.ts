@@ -1,57 +1,27 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
-import { LucideAngularModule, Search, Filter, Menu, X } from 'lucide-angular';
-import { FormsModule } from '@angular/forms';
-import { NoteService } from './services/note.service';
+import { LucideAngularModule, Menu, X } from 'lucide-angular';
 import { CommonModule } from '@angular/common';
+import { SettingsComponent } from './components/settings/settings.component';
+import { ThemeService } from './services/theme.service';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, LucideAngularModule, FormsModule, CommonModule],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, LucideAngularModule, CommonModule, SettingsComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent {
-  title = 'note-taking-app';
-  searchTerm = '';
-  selectedTag = '';
-  showTagDropdown = false;
+export class AppComponent implements OnInit {
+  private themeService = inject(ThemeService);
   
-  SearchIcon = Search;
-  FilterIcon = Filter;
+  title = 'note-taking-app';
+  isMobileMenuOpen = false;
+  
   MenuIcon = Menu;
   CloseIcon = X;
   
-  isMobileMenuOpen = false;
-  
-  constructor(private noteService: NoteService) {}
-  
-  onSearchChange(): void {
-    this.noteService.setSearchTerm(this.searchTerm);
-  }
-  
-  get allTags(): string[] {
-    return this.noteService.getAllTags();
-  }
-  
-  toggleTagDropdown(): void {
-    this.showTagDropdown = !this.showTagDropdown;
-  }
-  
-  selectTag(tag: string): void {
-    this.selectedTag = tag;
-    this.noteService.setSelectedTag(tag);
-    this.showTagDropdown = false;
-  }
-  
-  clearTagFilter(): void {
-    this.selectedTag = '';
-    this.noteService.setSelectedTag('');
-    this.showTagDropdown = false;
-  }
-  
-  closeTagDropdown(): void {
-    this.showTagDropdown = false;
+  ngOnInit(): void {
+    // Theme service initializes automatically
   }
   
   toggleMobileMenu(): void {

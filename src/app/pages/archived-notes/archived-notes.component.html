@@ -1,5 +1,7 @@
 <div class="container">
-  <div class="notes-grid">
+  <app-search-filter></app-search-filter>
+  
+  <div class="notes-grid" *ngIf="filteredNotes.length > 0">
     <div class="note-card" *ngFor="let note of filteredNotes; trackBy: trackByNoteId" (click)="viewNote(note.id)">
       <h3>{{ note.title }}</h3>
       <p>{{ note.content }}</p>
@@ -13,6 +15,36 @@
           Unarchive
         </button>
       </div>
+    </div>
+  </div>
+  
+  <!-- Empty States -->
+  <div class="empty-state" *ngIf="filteredNotes.length === 0">
+    <div class="empty-content">
+      <div class="empty-icon" *ngIf="searchTerm || selectedTag; else noArchivedIcon">
+        <lucide-icon [img]="SearchIcon" size="48"></lucide-icon>
+      </div>
+      <ng-template #noArchivedIcon>
+        <div class="empty-icon">
+          <lucide-icon [img]="ArchiveIcon" size="48"></lucide-icon>
+        </div>
+      </ng-template>
+      
+      <h3 *ngIf="searchTerm || selectedTag; else noArchivedTitle">No results found</h3>
+      <ng-template #noArchivedTitle>
+        <h3>No archived notes</h3>
+      </ng-template>
+      
+      <p *ngIf="searchTerm || selectedTag; else noArchivedMessage">
+        Try adjusting your search or filter to find what you're looking for.
+      </p>
+      <ng-template #noArchivedMessage>
+        <p>Notes you archive will appear here. Archive notes to keep them organized without deleting them.</p>
+      </ng-template>
+      
+      <a class="empty-action" routerLink="/notes" *ngIf="!searchTerm && !selectedTag">
+        Go to Notes
+      </a>
     </div>
   </div>
 </div>
