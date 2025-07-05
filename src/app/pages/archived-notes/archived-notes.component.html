@@ -1,6 +1,6 @@
 <div class="container">
   <div class="notes-grid">
-    <div class="note-card" *ngFor="let note of filteredNotes; trackBy: trackByNoteId">
+    <div class="note-card" *ngFor="let note of filteredNotes; trackBy: trackByNoteId" (click)="viewNote(note.id)">
       <h3>{{ note.title }}</h3>
       <p>{{ note.content }}</p>
       <div class="tags">
@@ -8,14 +8,10 @@
         <span>{{ note.tags.join(', ') }}</span>
       </div>
       <div class="actions">
-        <button (click)="unarchiveNote(note.id)">
+        <button (click)="unarchiveNote(note.id, $event)" (keydown.enter)="unarchiveNote(note.id, $event)" (keydown.space)="unarchiveNote(note.id, $event)" [attr.aria-label]="'Unarchive note: ' + note.title">
           <lucide-icon [img]="ArchiveIcon" size="14"></lucide-icon>
           Unarchive
         </button>
-        <a [routerLink]="['/notes', note.id]">
-          <lucide-icon [img]="EditIcon" size="14"></lucide-icon>
-          Edit
-        </a>
       </div>
     </div>
   </div>

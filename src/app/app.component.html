@@ -21,25 +21,56 @@
             (input)="onSearchChange()"
             placeholder="Search notes..."
             class="nav-search-bar"
+            aria-label="Search notes"
+            role="searchbox"
+            tabindex="0"
           />
         </div>
         
         <div class="tag-filter" [class.active]="selectedTag">
-          <button class="tag-filter-btn" (click)="toggleTagDropdown()">
+          <button 
+            class="tag-filter-btn" 
+            (click)="toggleTagDropdown()" 
+            (keydown.enter)="toggleTagDropdown()" 
+            (keydown.space)="toggleTagDropdown()"
+            (keydown.escape)="closeTagDropdown()"
+            [attr.aria-expanded]="showTagDropdown"
+            aria-haspopup="listbox"
+            aria-label="Filter notes by tags"
+          >
             <lucide-icon [img]="FilterIcon" size="14"></lucide-icon>
             <span *ngIf="selectedTag; else defaultText">{{ selectedTag }}</span>
             <ng-template #defaultText>Tags</ng-template>
           </button>
           
-          <div class="tag-dropdown" *ngIf="showTagDropdown">
-            <button class="tag-option" (click)="clearTagFilter()" [class.selected]="!selectedTag">
+          <div 
+            class="tag-dropdown" 
+            *ngIf="showTagDropdown"
+            role="listbox"
+            aria-label="Tag filter options"
+          >
+            <button 
+              class="tag-option" 
+              (click)="clearTagFilter()" 
+              (keydown.enter)="clearTagFilter()" 
+              (keydown.space)="clearTagFilter()"
+              [class.selected]="!selectedTag"
+              role="option"
+              [attr.aria-selected]="!selectedTag"
+              aria-label="Show all notes"
+            >
               All Tags
             </button>
             <button 
               class="tag-option" 
               *ngFor="let tag of allTags" 
               (click)="selectTag(tag)"
+              (keydown.enter)="selectTag(tag)" 
+              (keydown.space)="selectTag(tag)"
               [class.selected]="selectedTag === tag"
+              role="option"
+              [attr.aria-selected]="selectedTag === tag"
+              [attr.aria-label]="'Filter by ' + tag + ' tag'"
             >
               {{ tag }}
             </button>
@@ -49,17 +80,17 @@
       
       <ul class="nav-list">
         <li class="nav-item">
-          <a class="nav-link" routerLink="/notes" routerLinkActive="active" ariaCurrentWhenActive="page">
+          <a class="nav-link" routerLink="/notes" routerLinkActive="active" ariaCurrentWhenActive="page" (keydown.enter)="handleNavClick($event)">
             Notes
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/archived" routerLinkActive="active" ariaCurrentWhenActive="page">
+          <a class="nav-link" routerLink="/archived" routerLinkActive="active" ariaCurrentWhenActive="page" (keydown.enter)="handleNavClick($event)">
             Archived
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/create" routerLinkActive="active" ariaCurrentWhenActive="page">
+          <a class="nav-link" routerLink="/create" routerLinkActive="active" ariaCurrentWhenActive="page" (keydown.enter)="handleNavClick($event)">
             Create Note
           </a>
         </li>
@@ -77,25 +108,55 @@
             (input)="onSearchChange()"
             placeholder="Search notes..."
             class="nav-search-bar"
+            aria-label="Search notes"
+            role="searchbox"
           />
         </div>
         
         <div class="tag-filter" [class.active]="selectedTag">
-          <button class="tag-filter-btn" (click)="toggleTagDropdown()">
+          <button 
+            class="tag-filter-btn" 
+            (click)="toggleTagDropdown()" 
+            (keydown.enter)="toggleTagDropdown()" 
+            (keydown.space)="toggleTagDropdown()"
+            (keydown.escape)="closeTagDropdown()"
+            [attr.aria-expanded]="showTagDropdown"
+            aria-haspopup="listbox"
+            aria-label="Filter notes by tags"
+          >
             <lucide-icon [img]="FilterIcon" size="14"></lucide-icon>
             <span *ngIf="selectedTag; else defaultTextMobile">{{ selectedTag }}</span>
             <ng-template #defaultTextMobile>Filter by Tags</ng-template>
           </button>
           
-          <div class="tag-dropdown" *ngIf="showTagDropdown">
-            <button class="tag-option" (click)="clearTagFilter()" [class.selected]="!selectedTag">
+          <div 
+            class="tag-dropdown" 
+            *ngIf="showTagDropdown"
+            role="listbox"
+            aria-label="Tag filter options"
+          >
+            <button 
+              class="tag-option" 
+              (click)="clearTagFilter()" 
+              (keydown.enter)="clearTagFilter()" 
+              (keydown.space)="clearTagFilter()"
+              [class.selected]="!selectedTag"
+              role="option"
+              [attr.aria-selected]="!selectedTag"
+              aria-label="Show all notes"
+            >
               All Tags
             </button>
             <button 
               class="tag-option" 
               *ngFor="let tag of allTags" 
               (click)="selectTag(tag)"
+              (keydown.enter)="selectTag(tag)" 
+              (keydown.space)="selectTag(tag)"
               [class.selected]="selectedTag === tag"
+              role="option"
+              [attr.aria-selected]="selectedTag === tag"
+              [attr.aria-label]="'Filter by ' + tag + ' tag'"
             >
               {{ tag }}
             </button>
@@ -103,19 +164,19 @@
         </div>
       </div>
       
-      <ul class="mobile-nav-list">
+      <ul class="mobile-nav-list" role="navigation" aria-label="Main navigation">
         <li class="mobile-nav-item">
-          <a class="mobile-nav-link" routerLink="/notes" routerLinkActive="active" (click)="closeMobileMenu()">
+          <a class="mobile-nav-link" routerLink="/notes" routerLinkActive="active" (click)="closeMobileMenu()" (keydown.enter)="closeMobileMenu()">
             Notes
           </a>
         </li>
         <li class="mobile-nav-item">
-          <a class="mobile-nav-link" routerLink="/archived" routerLinkActive="active" (click)="closeMobileMenu()">
+          <a class="mobile-nav-link" routerLink="/archived" routerLinkActive="active" (click)="closeMobileMenu()" (keydown.enter)="closeMobileMenu()">
             Archived
           </a>
         </li>
         <li class="mobile-nav-item">
-          <a class="mobile-nav-link" routerLink="/create" routerLinkActive="active" (click)="closeMobileMenu()">
+          <a class="mobile-nav-link" routerLink="/create" routerLinkActive="active" (click)="closeMobileMenu()" (keydown.enter)="closeMobileMenu()">
             Create Note
           </a>
         </li>

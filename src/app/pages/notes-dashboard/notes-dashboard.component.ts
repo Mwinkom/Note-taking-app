@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { NoteService } from '../../services/note.service';
 import { Note } from '../../models/note.model';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { LucideAngularModule, FileText, Search, Tag, Archive, Edit } from 'lucide-angular';
 
 @Component({
@@ -15,6 +15,7 @@ import { LucideAngularModule, FileText, Search, Tag, Archive, Edit } from 'lucid
 
 export class NotesDashboardComponent implements OnInit {  
   private noteService = inject(NoteService);
+  private router = inject(Router);
   notes$ = this.noteService.notes$;
   searchTerm: string = '';
   
@@ -25,8 +26,15 @@ export class NotesDashboardComponent implements OnInit {
   ArchiveIcon = Archive;
   EditIcon = Edit;
 
-  archiveNote(id: string): void {
+  archiveNote(id: string, event?: Event): void {
+    if (event) {
+      event.stopPropagation(); // Prevent card click
+    }
     this.noteService.archiveNote(id);
+  }
+  
+  viewNote(id: string): void {
+    this.router.navigate(['/notes', id]);
   } 
 
   trackByNoteId(index: number, note: Note): string {

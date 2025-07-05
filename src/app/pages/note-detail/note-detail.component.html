@@ -1,1 +1,105 @@
-<p>note-detail works!</p>
+<div class="note-detail-container" *ngIf="!isLoading">
+  <!-- Header -->
+  <div class="note-header">
+    <button class="back-btn" (click)="goBack()" (keydown.enter)="goBack()" (keydown.space)="goBack()" aria-label="Go back to notes list">
+      <lucide-icon [img]="ArrowLeftIcon" size="20"></lucide-icon>
+      Back
+    </button>
+  </div>
+  
+  <!-- Content Card -->
+  <div class="note-card">
+    <!-- View Mode -->
+    <div *ngIf="!isEditMode && note" class="view-mode">
+      <h1 class="note-title" tabindex="0" role="heading" aria-level="1">{{ note.title }}</h1>
+      <div class="note-meta">
+        <span class="created-date">Created: {{ note.createdAt | date:'medium' }}</span>
+        <div class="note-tags" *ngIf="note.tags.length > 0">
+          <span class="tag" *ngFor="let tag of note.tags">
+            <lucide-icon [img]="TagIcon" size="12"></lucide-icon>
+            {{ tag }}
+          </span>
+        </div>
+      </div>
+      <div class="note-body">
+        <p tabindex="0" role="article" aria-label="Note content">{{ note.content }}</p>
+      </div>
+    </div>
+    
+    <!-- Edit Mode -->
+    <form *ngIf="isEditMode" [formGroup]="noteForm" class="edit-mode">
+      <div class="form-group">
+        <label for="title">Title</label>
+        <input 
+          id="title"
+          type="text" 
+          formControlName="title" 
+          class="form-input"
+          [class.error]="titleError"
+          aria-required="true"
+          aria-describedby="title-error"
+          [attr.aria-invalid]="titleError ? 'true' : 'false'"
+        >
+        <span id="title-error" class="error-message" *ngIf="titleError" role="alert" aria-live="polite">{{ titleError }}</span>
+      </div>
+      
+      <div class="form-group">
+        <label for="content">Content</label>
+        <textarea 
+          id="content"
+          formControlName="content" 
+          class="form-textarea"
+          [class.error]="contentError"
+          rows="10"
+          aria-required="true"
+          aria-describedby="content-error"
+          [attr.aria-invalid]="contentError ? 'true' : 'false'"
+        ></textarea>
+        <span id="content-error" class="error-message" *ngIf="contentError" role="alert" aria-live="polite">{{ contentError }}</span>
+      </div>
+      
+      <div class="form-group">
+        <label for="tags">Tags (comma separated)</label>
+        <input 
+          id="tags"
+          type="text" 
+          class="form-input"
+          [value]="noteForm.get('tags')?.value?.join(', ') || ''"
+          (input)="updateTags($event)"
+          placeholder="work, personal, ideas"
+          aria-describedby="tags-help"
+        >
+        <small id="tags-help" class="form-help">Separate multiple tags with commas</small>
+      </div>
+    </form>
+  </div>
+  
+  <!-- Action Buttons -->
+  <div class="action-buttons">
+    <div *ngIf="!isEditMode">
+      <button class="edit-btn" (click)="toggleEditMode()" (keydown.enter)="toggleEditMode()" (keydown.space)="toggleEditMode()" aria-label="Edit this note">
+        <lucide-icon [img]="EditIcon" size="16"></lucide-icon>
+        Edit
+      </button>
+      <button class="delete-btn" (click)="deleteNote()" (keydown.enter)="deleteNote()" (keydown.space)="deleteNote()" aria-label="Delete this note">
+        <lucide-icon [img]="TrashIcon" size="16"></lucide-icon>
+        Delete
+      </button>
+    </div>
+    
+    <div *ngIf="isEditMode">
+      <button class="save-btn" (click)="saveNote()" (keydown.enter)="saveNote()" (keydown.space)="saveNote()" [disabled]="!noteForm.valid" [attr.aria-disabled]="!noteForm.valid" aria-label="Save changes to note">
+        <lucide-icon [img]="SaveIcon" size="16"></lucide-icon>
+        Save
+      </button>
+      <button class="cancel-btn" (click)="toggleEditMode()" (keydown.enter)="toggleEditMode()" (keydown.space)="toggleEditMode()" aria-label="Cancel editing">
+        <lucide-icon [img]="CancelIcon" size="16"></lucide-icon>
+        Cancel
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="loading" *ngIf="isLoading">
+  <p>Loading note...</p>
+</div>

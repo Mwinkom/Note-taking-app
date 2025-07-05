@@ -50,11 +50,19 @@ export class AppComponent {
     this.showTagDropdown = false;
   }
   
+  closeTagDropdown(): void {
+    this.showTagDropdown = false;
+  }
+  
   toggleMobileMenu(): void {
     this.isMobileMenuOpen = !this.isMobileMenuOpen;
   }
   
   closeMobileMenu(): void {
     this.isMobileMenuOpen = false;
+  }
+  
+  handleNavClick(event: Event): void {
+    (event.target as HTMLElement).click();
   }
 }
