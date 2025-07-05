@@ -1,0 +1,210 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.create-note-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 $spacing-md;
+  
+  @media (max-width: 768px) {
+    padding: 0 $spacing-sm;
+  }
+}
+
+.note-header {
+  display: flex;
+  align-items: center;
+  gap: $spacing-lg;
+  padding: $spacing-lg 0 $spacing-md 0;
+  
+  @media (max-width: 768px) {
+    padding: $spacing-md 0;
+    gap: $spacing-md;
+  }
+  
+  .back-btn {
+    @include btn-base;
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
+    background: transparent;
+    color: $gray-600;
+    border: 1px solid $gray-300;
+    
+    &:hover {
+      color: $primary;
+      background: rgba($primary, 0.05);
+      border-color: $primary;
+    }
+  }
+  
+  h1 {
+    font-size: 1.5rem;
+    font-weight: $font-weight-bold;
+    color: $gray-900;
+    margin: 0;
+    
+    @media (max-width: 768px) {
+      font-size: 1.25rem;
+    }
+  }
+}
+
+.note-card {
+  background: $white;
+  border: 1px solid $gray-200;
+  border-radius: $border-radius;
+  padding: $spacing-xl;
+  margin-bottom: $spacing-lg;
+  box-shadow: $shadow-sm;
+  
+  @media (max-width: 768px) {
+    padding: $spacing-lg;
+    margin-bottom: $spacing-md;
+  }
+}
+
+.create-form {
+  .form-group {
+    margin-bottom: $spacing-lg;
+    
+    label {
+      display: block;
+      margin-bottom: $spacing-sm;
+      font-weight: $font-weight-medium;
+      color: $gray-700;
+    }
+    
+    .form-input, .form-textarea {
+      width: 100%;
+      padding: $spacing-md;
+      border: 1px solid $gray-200;
+      border-radius: $border-radius;
+      font-size: $font-size-base;
+      transition: all $transition;
+      
+      &:focus {
+        outline: none;
+        border-color: $primary;
+        box-shadow: 0 0 0 3px rgba($primary, 0.1);
+      }
+      
+      &.error {
+        border-color: #dc3545;
+        
+        &:focus {
+          box-shadow: 0 0 0 3px rgba(#dc3545, 0.1);
+        }
+      }
+      
+      &::placeholder {
+        color: $gray-400;
+      }
+    }
+    
+    .form-textarea {
+      resize: vertical;
+      min-height: 200px;
+      font-family: inherit;
+    }
+    
+    .error-message {
+      display: block;
+      margin-top: $spacing-xs;
+      color: #dc3545;
+      font-size: $font-size-sm;
+    }
+    
+    .form-help {
+      display: block;
+      margin-top: $spacing-xs;
+      color: $gray-500;
+      font-size: $font-size-sm;
+    }
+  }
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  gap: $spacing-sm;
+  margin-bottom: $spacing-xl;
+  
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .save-btn {
+    @include btn-base;
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
+    background: $primary;
+    color: $white;
+    
+    &:hover {
+      background: $primary-light;
+    }
+    
+    &:disabled {
+      background: $gray-300;
+      color: $gray-500;
+      cursor: not-allowed;
+    }
+  }
+  
+  .cancel-btn {
+    @include btn-base;
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
+    background: transparent;
+    color: $gray-600;
+    border: 1px solid $gray-300;
+    
+    &:hover {
+      background: $gray-50;
+      border-color: $gray-400;
+    }
+  }
+}
+
+// Toast Notification
+.toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #10b981;
+  color: $white;
+  padding: $spacing-md $spacing-lg;
+  border-radius: $border-radius;
+  box-shadow: $shadow-md;
+  transform: translateX(100%);
+  opacity: 0;
+  transition: all 0.3s ease-in-out;
+  z-index: 1000;
+  
+  &.show {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  
+  .toast-content {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    font-weight: $font-weight-medium;
+  }
+}
+
+// Background for better contrast
+.note-content {
+  background: $gray-50;
+  min-height: calc(100vh - 200px);
+  padding: $spacing-md;
+  
+  @media (max-width: 768px) {
+    padding: $spacing-sm;
+  }
+}

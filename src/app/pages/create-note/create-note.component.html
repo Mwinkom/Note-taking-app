@@ -1,1 +1,94 @@
-<p>create-note works!</p>
+<div class="create-note-container">
+  <!-- Header -->
+  <div class="note-header">
+    <button class="back-btn" (click)="goBack()" (keydown.enter)="goBack()" (keydown.space)="goBack()" aria-label="Go back to notes list">
+      <lucide-icon [img]="ArrowLeftIcon" size="20"></lucide-icon>
+      Back
+    </button>
+    <h1>Create New Note</h1>
+  </div>
+  
+  <!-- Form Card -->
+  <div class="note-card">
+    <form [formGroup]="noteForm" (ngSubmit)="createNote()" class="create-form">
+      <div class="form-group">
+        <label for="title">Title</label>
+        <input 
+          id="title"
+          type="text" 
+          formControlName="title" 
+          class="form-input"
+          [class.error]="titleError"
+          aria-required="true"
+          aria-describedby="title-error"
+          [attr.aria-invalid]="titleError ? 'true' : 'false'"
+          placeholder="Enter note title"
+        >
+        <span id="title-error" class="error-message" *ngIf="titleError" role="alert" aria-live="polite">{{ titleError }}</span>
+      </div>
+      
+      <div class="form-group">
+        <label for="content">Content</label>
+        <textarea 
+          id="content"
+          formControlName="content" 
+          class="form-textarea"
+          [class.error]="contentError"
+          rows="10"
+          aria-required="true"
+          aria-describedby="content-error"
+          [attr.aria-invalid]="contentError ? 'true' : 'false'"
+          placeholder="Write your note content here..."
+        ></textarea>
+        <span id="content-error" class="error-message" *ngIf="contentError" role="alert" aria-live="polite">{{ contentError }}</span>
+      </div>
+      
+      <div class="form-group">
+        <label for="tags">Tags (comma separated)</label>
+        <input 
+          id="tags"
+          type="text" 
+          class="form-input"
+          [value]="noteForm.get('tags')?.value?.join(', ') || ''"
+          (input)="updateTags($event)"
+          placeholder="work, personal, ideas"
+          aria-describedby="tags-help"
+        >
+        <small id="tags-help" class="form-help">Separate multiple tags with commas</small>
+      </div>
+    </form>
+  </div>
+  
+  <!-- Action Buttons -->
+  <div class="action-buttons">
+    <button 
+      class="save-btn" 
+      (click)="createNote()" 
+      (keydown.enter)="createNote()" 
+      (keydown.space)="createNote()" 
+      [disabled]="!noteForm.valid" 
+      [attr.aria-disabled]="!noteForm.valid" 
+      aria-label="Create note"
+    >
+      <lucide-icon [img]="SaveIcon" size="16"></lucide-icon>
+      Create Note
+    </button>
+    <button 
+      class="cancel-btn" 
+      (click)="goBack()" 
+      (keydown.enter)="goBack()" 
+      (keydown.space)="goBack()" 
+      aria-label="Cancel and go back"
+    >
+      <lucide-icon [img]="CancelIcon" size="16"></lucide-icon>
+      Cancel
+    </button>
+  </div>
+</div>
+
+<!-- Success Toast -->
+<div class="toast" [class.show]="showToast" role="alert" aria-live="assertive">
+  <div class="toast-content">
+    <span>Note created successfully!</span>
+  </div>
+</div>
