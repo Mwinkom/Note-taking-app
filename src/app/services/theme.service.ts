@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
-export type ColorTheme = 'light' | 'dark' | 'custom';
+export type ColorTheme = 'light' | 'dark' | 'custom'; 
 export type FontTheme = 'sans-serif' | 'serif' | 'monospace';
 
 export interface ThemePreferences {
@@ -23,8 +23,8 @@ export class ThemeService {
   preferences$ = this.preferencesSubject.asObservable();
   
   constructor() {
-    this.loadPreferences();
-    this.applyTheme();
+    this.loadPreferences(); // Load preferences from local storage on initialization
+    this.applyTheme(); // Apply the loaded theme preferences
   }
   
   setColorTheme(theme: ColorTheme): void {
@@ -61,11 +61,11 @@ export class ThemeService {
   }
   
   private applyTheme(): void {
-    const { colorTheme, fontTheme } = this.preferencesSubject.value;
+    const { colorTheme, fontTheme } = this.preferencesSubject.value; // get current preferences
     const body = document.body;
     
     // Apply color theme
-    body.className = body.className.replace(/theme-\w+/g, '');
+    body.className = body.className.replace(/theme-\w+/g, '');  
     body.classList.add(`theme-${colorTheme}`);
     
     // Apply font theme

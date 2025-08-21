@@ -30,7 +30,7 @@ export class NoteService {
     
     getAllTags(): string[] {
       const allTags = this.notes.flatMap(note => note.tags);
-      return [...new Set(allTags)].sort();
+      return [...new Set(allTags)].sort(); // Unique and sorted tags
     }
 
     constructor() { }
@@ -66,7 +66,7 @@ export class NoteService {
     }
     
     updateNote(updatedNote: Note): void {
-      const index = this.notes.findIndex(n => n.id === updatedNote.id);
+      const index = this.notes.findIndex(n => n.id === updatedNote.id); 
       if (index > -1) {
         this.notes[index] = updatedNote;
         this.saveNotesToStorage();
@@ -77,7 +77,7 @@ export class NoteService {
     deleteNote(id: string): void {
       this.notes = this.notes.filter(note => note.id !== id);
       this.saveNotesToStorage();
-      this.notesSubject.next(this.notes);
+      this.notesSubject.next(this.notes); 
     }
 
     archiveNote(id: string): void {
@@ -111,7 +111,7 @@ export class NoteService {
     }
     
     parseTagsFromInput(input: string): string[] {
-      return input.split(',').map(t => t.trim()).filter(t => t);
+      return input.split(',').map(t => t.trim()).filter(t => t); 
     }
 
 }

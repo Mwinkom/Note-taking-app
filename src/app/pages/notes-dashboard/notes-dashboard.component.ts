@@ -88,7 +88,7 @@ export class NotesDashboardComponent implements OnInit, OnDestroy {
     if (this.searchTerm.trim()) {
       const searchResults = this.noteService.searchNotes(this.searchTerm);
       filtered = filtered.filter(note => 
-        searchResults.some(searchNote => searchNote.id === note.id)
+        searchResults.some(searchNote => searchNote.id === note.id) 
       );
     }
     
