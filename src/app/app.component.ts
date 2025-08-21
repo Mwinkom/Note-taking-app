@@ -34,5 +34,5 @@ export class AppComponent implements OnInit {
   
   handleNavClick(event: Event): void {
     (event.target as HTMLElement).click();
-  }
+  } 
 }

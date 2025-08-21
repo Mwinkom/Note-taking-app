@@ -25,5 +25,9 @@ export const routes: Routes = [
         path: 'archived',
         loadComponent: () => 
             import('./pages/archived-notes/archived-notes.component').then(m => m.ArchivedNotesComponent)
+    },
+    {
+        path: '**',
+        redirectTo: 'notes'
     }
 ];
